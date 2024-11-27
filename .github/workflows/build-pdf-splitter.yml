@@ -63,12 +63,19 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y python3-tk
 
-    - name: Build executable
+    - name: Build executable (Windows)
+      if: matrix.os == 'windows-latest'
       run: |
         cd split_pdf_files
-        pyinstaller --name "PDF Splitter" --windowed --onefile --add-data "$(python -c 'import tkinter; print(tkinter.__file__)')${delimiter}tkinter" --hidden-import PyPDF2 --hidden-import tkinter --hidden-import tkinter.ttk --hidden-import tkinter.filedialog gui.py
-      env:
-        delimiter: ${{ matrix.os == 'windows-latest' && ';' || ':' }}
+        $tkpath = python -c "import tkinter,os;print(os.path.dirname(tkinter.__file__))"
+        pyinstaller --name "PDF Splitter" --windowed --onefile --add-data "$tkpath;tkinter" --hidden-import PyPDF2 --hidden-import tkinter --hidden-import tkinter.ttk --hidden-import tkinter.filedialog gui.py
+
+    - name: Build executable (Unix)
+      if: matrix.os != 'windows-latest'
+      run: |
+        cd split_pdf_files
+        tkpath=$(python -c 'import tkinter; print(tkinter.__file__)')
+        pyinstaller --name "PDF Splitter" --windowed --onefile --add-data "$tkpath:tkinter" --hidden-import PyPDF2 --hidden-import tkinter --hidden-import tkinter.ttk --hidden-import tkinter.filedialog gui.py
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
