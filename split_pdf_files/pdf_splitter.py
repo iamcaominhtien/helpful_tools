@@ -31,8 +31,9 @@ class PDFSplitter:
 
     def __del__(self):
         """Cleanup when object is destroyed"""
-        if self._file:
-            self._file.close()
+        pass
+        # if self._file:
+            # self._file.close()
 
     def split_by_ranges(self, output_dir: str | Path, ranges: list[str]) -> list[Path]:
         """Split PDF by page ranges (e.g., ['1-3', '4-6'])"""

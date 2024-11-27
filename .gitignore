@@ -788,3 +788,4 @@ cython_debug/
 
 # Android studio 3.1+ serialized cache file
 
+/split_pdf_files/split_output/
