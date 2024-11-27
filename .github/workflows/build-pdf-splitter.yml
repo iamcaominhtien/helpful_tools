@@ -2,8 +2,8 @@ name: Build PDF Splitter App
 
 on:
   push:
-    paths:
-      - 'split_pdf_files/**'
+#    paths:
+#      - 'split_pdf_files/**'
     branches:
       - main
   pull_request:
