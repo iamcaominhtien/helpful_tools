@@ -74,7 +74,28 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: |
         cd split_pdf_files
-        pyinstaller --windowed --name "PDF Splitter" --add-data "$(python -c 'import tkinter; print(tkinter.__file__)'):./tkinter" --hidden-import PyPDF2 --hidden-import tkinter --hidden-import tkinter.ttk --hidden-import tkinter.filedialog gui.py
+        # Create app bundle with PyInstaller
+        pyinstaller --clean \
+          --windowed \
+          --name "PDF Splitter" \
+          --noconfirm \
+          --add-data "$(python -c 'import tkinter; print(tkinter.__file__)'):tkinter" \
+          --hidden-import PyPDF2 \
+          --hidden-import tkinter \
+          --hidden-import tkinter.ttk \
+          --hidden-import tkinter.filedialog \
+          --osx-bundle-identifier "com.pdfsplitter.app" \
+          --target-architecture universal2 \
+          gui.py
+        
+        # Copy Info.plist to the bundle
+        cp Info.plist "dist/PDF Splitter.app/Contents/Info.plist"
+        
+        # Ad-hoc sign the app bundle
+        codesign --force --deep --sign - "dist/PDF Splitter.app"
+        
+        # Verify signing
+        codesign --verify --verbose "dist/PDF Splitter.app"
 
     - name: Build executable (Linux)
       if: matrix.os == 'ubuntu-latest'
