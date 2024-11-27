@@ -6,6 +6,7 @@ from pdf_splitter import PDFSplitter
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def split_pdf(input_path, output_dir='split_output', split_size=None, page_ranges=None):
     """
     Split PDF file either by page ranges or into number of equal parts
@@ -27,6 +28,7 @@ def split_pdf(input_path, output_dir='split_output', split_size=None, page_range
 
     except Exception as e:
         raise Exception(f"Error processing PDF: {str(e)}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Split PDF files into smaller parts')
