@@ -74,17 +74,7 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: |
         cd split_pdf_files
-        tkpath=$(python -c 'import tkinter; print(tkinter.__file__)')
-        pyinstaller --name "PDF Splitter" \
-          --windowed \
-          --add-data "$tkpath:tkinter" \
-          --hidden-import PyPDF2 \
-          --hidden-import tkinter \
-          --hidden-import tkinter.ttk \
-          --hidden-import tkinter.filedialog \
-          --target-architecture universal2 \
-          --osx-bundle-identifier "com.pdfsplitter.app" \
-          gui.py
+        pyinstaller --windowed --name "PDF Splitter" --add-data "$(python -c 'import tkinter; print(tkinter.__file__)'):./tkinter" --hidden-import PyPDF2 --hidden-import tkinter --hidden-import tkinter.ttk --hidden-import tkinter.filedialog gui.py
 
     - name: Build executable (Linux)
       if: matrix.os == 'ubuntu-latest'
