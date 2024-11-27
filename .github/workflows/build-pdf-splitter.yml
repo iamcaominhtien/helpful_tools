@@ -82,7 +82,6 @@ jobs:
           --hidden-import tkinter \
           --hidden-import tkinter.ttk \
           --hidden-import tkinter.filedialog \
-          --icon Resources/app.icns \
           --target-architecture universal2 \
           --osx-bundle-identifier "com.pdfsplitter.app" \
           gui.py
